@@ -15,7 +15,7 @@
       <TextField fx:id="tfRemise" layoutX="303.0" layoutY="144.0" promptText="Remise" style="-fx-background-color: #fae7cf;" />
       <TextField fx:id="tfDuree" layoutX="303.0" layoutY="206.0" promptText="Durée" style="-fx-background-color: #fae7cf;" />
       <TextField fx:id="tfDescription" layoutX="303.0" layoutY="258.0" prefHeight="154.0" prefWidth="238.0" promptText="Description" style="-fx-background-color: #fae7cf;" />
-      <MediaView fitHeight="200.0" fitWidth="200.0" layoutX="36.0" layoutY="429.0" />
+      <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" layoutX="36.0" layoutY="429.0" />
       <Button fx:id="btnSauvegarder" layoutX="429.0" layoutY="463.0" mnemonicParsing="false" onMouseClicked="#SavePerson" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #c87a19;" text="Sauvegarder" textFill="WHITE" />
       <Button fx:id="btnUpload" layoutX="236.0" layoutY="593.0" mnemonicParsing="false" onAction="#UplderVd" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #c87a19;" text="Upload" textFill="WHITE" />
    </children>

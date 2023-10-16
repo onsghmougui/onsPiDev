@@ -18,11 +18,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
 
 /**
@@ -54,11 +56,11 @@ public class FormationGuiController implements Initializable {
     private TableColumn<formation,String> dureecolumn;
     @FXML
     private TableColumn<formation,String> descriptioncolumn;
-    @FXML
-    private TextField tfsearch;
+    
     @FXML
     private TableView<formation> tableFormation;
-
+@FXML
+    private TextField tfsearch;
     /**
      * Initializes the controller class.
      * @param url
@@ -87,11 +89,20 @@ private void afficher (TableColumn<formation, Long> idcolumn,TableColumn<formati
 
             Parent root = loader.load();
             AddFormationGuiController aGF=loader.getController();
-            btnAjouter.getScene().setRoot(root);
+            //btnAjouter.getScene().setRoot(root);
+            Stage newStage = new Stage();
+
+        // Set the scene for the new stage
+            Scene scene = new Scene(root);
+            newStage.setScene(scene);
+
+        // Show the new stage
+            newStage.show();
             
         }catch (IOException ex) {
             System.out.println("Error: "+ex.getMessage());
         }
+          
     }
     
     
@@ -106,7 +117,37 @@ private void afficher (TableColumn<formation, Long> idcolumn,TableColumn<formati
     }
 
     @FXML
-    private void modif(ActionEvent event) {
+    private void modif(ActionEvent event) throws IOException {
+       /* formation selectedFormation = tableFormation.getSelectionModel().getSelectedItem();
+       // Assuming you have a FXMLLoader set up for loading the "addformationgui.fxml" file
+FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormationGui.fxml"));
+Parent root = loader.load();
+
+// Access the controller of the new interface
+AddFormationGuiController controller = loader.getController();
+
+// Fill the fields in the new interface using the selectedFormation variable
+controller.tfTitre.setText(selectedFormation.getTitre());
+controller.tfCategorie.setText(selectedFormation.getCategorie());
+controller.tfPrix.setText(String.valueOf(selectedFormation.getPrix()));
+controller.tfRemise.setText(String.valueOf(selectedFormation.getRemise()));
+controller.tfDuree.setText(selectedFormation.getDuree());
+controller.tfDescription.setText(selectedFormation.getDescription());
+
+// Show the new interface
+Stage stage = new Stage();
+Scene scene = new Scene(root);
+stage.setScene(scene);
+stage.show();*/
+
+        
+        
+        
+        
+        
+        
+        
+        
     }
 
     

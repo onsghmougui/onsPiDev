@@ -30,6 +30,16 @@ public class formation {
         this.duree = duree;
         this.description = description;
     }
+    public formation (String titre,String categories,double prix, float remise,String duree,String description,String video){
+        this.titre = titre;
+        this.categories = categories;
+        this.prix = prix;
+        this.remise = remise;
+        this.duree = duree;
+        this.description = description;
+        this.video=video;
+    
+    }
 
     public formation(long id, String titre, String categories, double prix, float remise, String duree, int evaluation, String description) {
         this.id = id;

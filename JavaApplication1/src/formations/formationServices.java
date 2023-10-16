@@ -29,9 +29,10 @@ public class formationServices {
         if(this.chercher(t)!=null)
             return -1; 
         
-        String req="INSERT INTO `formation` ( `id`, `titre`, `categories`, `prix`,`remise`,`duree`,`description`)"
-                    + " VALUES ( ?,?, ?,?,?,?,?);";
+        String req="INSERT INTO `formation` ( `id`, `titre`, `categories`, `prix`,`remise`,`duree`,`description`,`video`)"
+                    + " VALUES ( ?,?, ?,?,?,?,?,?);";
         try {
+            
             PreparedStatement prepStat = myConx.prepareStatement(req);
             prepStat.setLong(1, t.getId());
             prepStat.setString(2, t.getTitre());
@@ -40,7 +41,8 @@ public class formationServices {
             prepStat.setFloat(5, t.getRemise());
             prepStat.setString(6, t.getDuree());
             prepStat.setString(7, t.getDescription());
-            //prepStat.setString(8, t.getVideo());
+            
+            prepStat.setString(8, t.getVideo());
             int rowsAffected =  prepStat.executeUpdate();
             
             
@@ -56,7 +58,7 @@ public class formationServices {
     
     public formation chercher(formation t) {
         String req="SELECT * FROM `formation` WHERE `id` LIKE ? AND `titre` LIKE ? AND `categories` LIKE ? AND `prix` LIKE ? AND`remise` LIKE ? "
-                + "AND`duree` LIKE ? AND `description` LIKE ?;";
+                + "AND`duree` LIKE ? AND `description` LIKE ?AND `video` LIKE ?;";
         formation found = new formation();
         try {
             PreparedStatement prepStat = myConx.prepareStatement(req);
@@ -67,7 +69,7 @@ public class formationServices {
             prepStat.setFloat(5, t.getRemise());
             prepStat.setString(6, t.getDuree());
             prepStat.setString(7, t.getDescription());
-            //prepStat.setString(8, t.getVideo());
+            prepStat.setString(8, t.getVideo());
             
                       
                       
@@ -81,7 +83,7 @@ public class formationServices {
             found.setPrix(rS.getFloat("remise"));
             found.setDescription(rS.getString("duree"));
             found.setDescription(rS.getString("description"));
-            //found.setVideo(rS.getString("video"));
+            found.setVideo(rS.getString("video"));
             
             
             
