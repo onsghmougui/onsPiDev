@@ -24,6 +24,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 
@@ -61,6 +62,8 @@ public class FormationGuiController implements Initializable {
     private TableView<formation> tableFormation;
 @FXML
     private TextField tfsearch;
+    @FXML
+    private TableColumn<formation,String> videocolumn;
     /**
      * Initializes the controller class.
      * @param url
@@ -75,12 +78,14 @@ public class FormationGuiController implements Initializable {
         remisecolumn.setCellValueFactory(new PropertyValueFactory<formation,Float>("remise"));
         dureecolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("duree"));
         descriptioncolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("description"));
+        videocolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("video"));
+
         formationServices fS= new formationServices();
         ObservableList <formation> formationList=FXCollections.observableArrayList(fS.retournerTout());
         tableFormation.setItems(formationList);
         //String path = new File("Source")
     }    
-private void afficher (TableColumn<formation, Long> idcolumn,TableColumn<formation,String> titrecolumn,TableColumn<formation,String> categoriecolumn,TableColumn<formation,Double> prixcolumn,TableColumn<formation,Float> remisecolumn,TableColumn<formation,String> dureecolumn,TableColumn<formation,String> descriptioncolumn){
+private void afficher (TableColumn<formation, Long> idcolumn,TableColumn<formation,String> titrecolumn,TableColumn<formation,String> categoriecolumn,TableColumn<formation,Double> prixcolumn,TableColumn<formation,Float> remisecolumn,TableColumn<formation,String> dureecolumn,TableColumn<formation,String> descriptioncolumn,TableColumn<formation,String> videocolumn){
 }
     @FXML
     private void Ajout(ActionEvent event) {
@@ -114,10 +119,50 @@ private void afficher (TableColumn<formation, Long> idcolumn,TableColumn<formati
 
     @FXML
     private void delete(ActionEvent event) {
+         formation f =tableFormation.getSelectionModel().getSelectedItem();
+        if (f!= null){
+        ObservableList<formation> data= tableFormation.getItems();
+        formationServices fS= new formationServices();
+        int result = fS.supprimer(f);
+            System.out.println(result);
+            data.remove(f);
+            
+            
+       
+        
+        
+        
+    }
     }
 
     @FXML
-    private void modif(ActionEvent event) throws IOException {
+    private void modif(ActionEvent event) {
+        formation formationSelectionnee = tableFormation.getSelectionModel().getSelectedItem();
+
+    if (formationSelectionnee != null) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormationGui.fxml"));
+            Parent root = loader.load();
+            AddFormationGuiController addFormationController = loader.getController();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.show();
+
+            // Maintenant, appelez la méthode sur l'instance du contrôleur
+            addFormationController.remplirChamps(formationSelectionnee);
+        } catch (IOException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+    }
+
+
+
+
+
+
+
        /* formation selectedFormation = tableFormation.getSelectionModel().getSelectedItem();
        // Assuming you have a FXMLLoader set up for loading the "addformationgui.fxml" file
 FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormationGui.fxml"));
@@ -150,7 +195,11 @@ stage.show();*/
         
     }
 
-    
+    @FXML
+    private void Ajout(MouseEvent event) {
+    }
+
+     
     
 
 }

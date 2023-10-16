@@ -158,10 +158,10 @@ public class formationServices {
             found.setTitre(rS.getString("titre"));
             found.setCategories(rS.getString("categories"));
             found.setPrix(rS.getDouble("prix"));
-            found.setPrix(rS.getFloat("remise"));
-            found.setDescription(rS.getString("duree"));
+            found.setRemise(rS.getFloat("remise"));
+            found.setDuree(rS.getString("duree"));
             found.setDescription(rS.getString("description"));
-            //found.setVideo(rS.getString("video"));
+            found.setVideo(rS.getString("video"));
             retour.add(found);
                 
             }

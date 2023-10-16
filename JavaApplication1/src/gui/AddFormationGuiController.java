@@ -123,5 +123,22 @@ public class AddFormationGuiController implements Initializable {
             System.out.println("Error: "+ex.getMessage());
         }
     }
+    public void remplirChamps(formation formation) {
+        // Remplissez les champs avec les informations de la formation
+        tfTitre.setText(formation.getTitre());
+        tfCategorie.setText(formation.getCategories());
+        tfPrix.setText(String.valueOf(formation.getPrix()));
+        tfRemise.setText(String.valueOf(formation.getRemise()));
+        tfDuree.setText(formation.getDuree());
+        tfDescription.setText(formation.getDescription());
+        String video = formation.getVideo();
+        Media media = new Media(video);
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        // Associez le MediaPlayer à la MediaView pour l'affichage de la vidéo
+        mediaView.setMediaPlayer(mediaPlayer);
+       
+        // Remplissez d'autres champs en conséquence
+    }
     
 }
