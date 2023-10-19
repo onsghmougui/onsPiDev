@@ -19,6 +19,17 @@ public class formation {
     private float remise;
     private String duree;
     private int evaluation;
+
+    public formation(long id, String titre, String categories, double prix, float remise, String duree, String description, String video) {
+        this.id = id;
+        this.titre = titre;
+        this.categories = categories;
+        this.prix = prix;
+        this.remise = remise;
+        this.duree = duree;
+        this.description = description;
+        this.video = video;
+    }
     private String description;
     private String video;
 
@@ -41,16 +52,7 @@ public class formation {
     
     }
 
-    public formation(long id, String titre, String categories, double prix, float remise, String duree, int evaluation, String description) {
-        this.id = id;
-        this.titre = titre;
-        this.categories = categories;
-        this.prix = prix;
-        this.remise = remise;
-        this.duree = duree;
-        this.evaluation = evaluation;
-        this.description = description;
-    }
+   
 
     public formation(long id, String titre, String categories, double prix, float remise, String duree, String description) {
         this.id = id;

@@ -6,6 +6,7 @@
 package commentaires;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Objects;
 
 /**
@@ -15,21 +16,52 @@ import java.util.Objects;
 public class commentaire {
     private long id;
     private String text;
-    private String utilisateur;
-    private Date date;
-    private String reponse;
-    private String signalement;
+    private long iduser;
+    private long idformation;
+    private LocalDate date;
+    private int evaluation;
 
-    public commentaire(int id, String text, String utilisateur, Date date, String reponse, String signalement) {
-        this.id = id;
-        this.text = text;
-        this.utilisateur = utilisateur;
-        this.date = date;
-        this.reponse = reponse;
-        this.signalement = signalement;
+   
+
+   
+    public int getEvaluation() {
+        return evaluation;
     }
 
-    public commentaire() {
+    public commentaire(long iduser,String text,  LocalDate date, int evaluation) {
+        this.text = text;
+        this.iduser = iduser;
+        this.date = date;
+        this.evaluation = evaluation;
+    }
+
+    public void setEvaluation(int evaluation) {
+        this.evaluation = evaluation;
+    }
+
+    public commentaire(long id, String text, long iduser, long idformation, LocalDate date, int evaluation) {
+        this.id = id;
+        this.text = text;
+        this.iduser = iduser;
+        this.idformation = idformation;
+        this.date = date;
+        this.evaluation = evaluation;
+    }
+    public commentaire(){
+        
+    }
+    
+
+    public commentaire(long id, String text, long iduser, long idformation, LocalDate date) {
+        this.id = id;
+        this.text = text;
+        this.iduser = iduser;
+        this.idformation = idformation;
+        this.date = date;
+        
+    }
+    public commentaire(String text){
+        this.text = text;
     }
 
     public long getId() {
@@ -48,39 +80,35 @@ public class commentaire {
         this.text = text;
     }
 
-    public String getUtilisateur() {
-        return utilisateur;
+    public long getIduser() {
+        return iduser;
     }
 
-    public void setUtilisateur(String utilisateur) {
-        this.utilisateur = utilisateur;
+    public void setIduser(long iduser) {
+        this.iduser = iduser;
     }
 
-    public Date getDate() {
+    public long getIdformation() {
+        return idformation;
+    }
+
+    public void setIdformation(long idformation) {
+        this.idformation = idformation;
+    }
+
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getReponse() {
-        return reponse;
+    @Override
+    public String toString() {
+        return "commentaire{" + "text=" + text + ", iduser=" + iduser + ", idformation=" + idformation + ", date=" + date + '}';
     }
 
-    public void setReponse(String reponse) {
-        this.reponse = reponse;
-    }
-
-    public String getSignalement() {
-        return signalement;
-    }
-
-    public void setSignalement(String signalement) {
-        this.signalement = signalement;
-    }
-
-   
 
     @Override
     public boolean equals(Object obj) {
@@ -97,16 +125,13 @@ public class commentaire {
         if (this.id != other.id) {
             return false;
         }
+        if (this.iduser != other.iduser) {
+            return false;
+        }
+        if (this.idformation != other.idformation) {
+            return false;
+        }
         if (!Objects.equals(this.text, other.text)) {
-            return false;
-        }
-        if (!Objects.equals(this.utilisateur, other.utilisateur)) {
-            return false;
-        }
-        if (!Objects.equals(this.reponse, other.reponse)) {
-            return false;
-        }
-        if (!Objects.equals(this.signalement, other.signalement)) {
             return false;
         }
         if (!Objects.equals(this.date, other.date)) {
@@ -115,13 +140,15 @@ public class commentaire {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return "commentaire{" + "text=" + text + ", utilisateur=" + utilisateur + ", date=" + date + ", reponse=" + reponse + ", signalement=" + signalement + '}';
+    public commentaire(String text, int evaluation) {
+        this.text = text;
+        this.evaluation = evaluation;
     }
+
+   
     
-    
-    
+
+ 
 
     
 }

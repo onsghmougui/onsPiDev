@@ -25,7 +25,6 @@
         </columns>
       </TableView>
       <TextField fx:id="tfsearch" layoutX="355.0" layoutY="142.0" prefHeight="26.0" prefWidth="310.0" />
-      <Button fx:id="btnRechercher" layoutX="732.0" layoutY="135.0" mnemonicParsing="false" onAction="#search" prefHeight="34.0" prefWidth="119.0" style="-fx-background-color: #c87a19;" text="Rechercher" textFill="WHITE" />
       <ImageView fitHeight="201.0" fitWidth="376.0" layoutX="-38.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../logo/logo%20pidev.png" />
@@ -34,5 +33,6 @@
       <Button fx:id="btnSupprimer" layoutX="680.0" layoutY="580.0" mnemonicParsing="false" onAction="#delete" prefHeight="34.0" prefWidth="119.0" style="-fx-background-color: #c87a19;" text="Supprimer" />
       <Button fx:id="btnModifier" layoutX="476.0" layoutY="580.0" mnemonicParsing="false" onAction="#modif" prefHeight="34.0" prefWidth="119.0" style="-fx-background-color: #c87a19;" text="Modifier" />
       <Button fx:id="btnAjouter" layoutX="279.0" layoutY="580.0" mnemonicParsing="false" onAction="#Ajout" prefHeight="34.0" prefWidth="119.0" style="-fx-background-color: #c87a19;" text="Ajouter" />
+      <Button fx:id="menubtn" layoutX="90.0" layoutY="580.0" mnemonicParsing="false" onAction="#menu" prefHeight="34.0" prefWidth="119.0" style="-fx-background-color: #c87a19;" text="Menu" />
    </children>
 </AnchorPane>

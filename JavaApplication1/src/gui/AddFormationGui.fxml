@@ -18,5 +18,6 @@
       <MediaView fx:id="mediaView" fitHeight="200.0" fitWidth="200.0" layoutX="36.0" layoutY="429.0" />
       <Button fx:id="btnSauvegarder" layoutX="429.0" layoutY="463.0" mnemonicParsing="false" onMouseClicked="#SavePerson" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #c87a19;" text="Sauvegarder" textFill="WHITE" />
       <Button fx:id="btnUpload" layoutX="236.0" layoutY="593.0" mnemonicParsing="false" onAction="#UplderVd" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #c87a19;" text="Upload" textFill="WHITE" />
+      <Button fx:id="btnModifier" layoutX="429.0" layoutY="521.0" mnemonicParsing="false" onMouseClicked="#Modifier" prefHeight="35.0" prefWidth="112.0" style="-fx-background-color: #c87a19;" text="Modifier" textFill="WHITE" />
    </children>
 </AnchorPane>

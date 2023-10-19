@@ -58,7 +58,7 @@ public class formationServices {
     
     public formation chercher(formation t) {
         String req="SELECT * FROM `formation` WHERE `id` LIKE ? AND `titre` LIKE ? AND `categories` LIKE ? AND `prix` LIKE ? AND`remise` LIKE ? "
-                + "AND`duree` LIKE ? AND `description` LIKE ?AND `video` LIKE ?;";
+                + "AND`duree` LIKE ? AND `description` LIKE ? AND `video` LIKE ?;";
         formation found = new formation();
         try {
             PreparedStatement prepStat = myConx.prepareStatement(req);
@@ -118,7 +118,7 @@ public class formationServices {
 
     
     public formation modifier(formation t, formation n) {
-        String req = "UPDATE `formation` SET  `titre` = ?, `categories` = ?,`prix` = ? ,`remise` = ?, `duree` = ?,`description` = ? ,`video` = ?  WHERE `formation`.`id` = ?;";
+        String req = "UPDATE `formation` SET  id = ? ,`titre` = ?, `categories` = ?,`prix` = ? ,`remise` = ?, `duree` = ?,`description` = ? ,`video` = ?  WHERE `formation`.`id` = ?;";
         try {
             
             PreparedStatement prepStat = myConx.prepareStatement(req);
@@ -128,10 +128,10 @@ public class formationServices {
             prepStat.setDouble(4, n.getPrix());
             prepStat.setFloat(5, t.getRemise());
             prepStat.setString(6, t.getDuree());
-            prepStat.setLong(7, t.getId());
-            prepStat.setString(8, t.getDescription());
-            prepStat.setString(9, t.getVideo());
- 
+    
+            prepStat.setString(7, t.getDescription());
+            prepStat.setString(8, t.getVideo());
+            prepStat.setLong(9, t.getId());
             int rowsAffected =  prepStat.executeUpdate();
            
             
@@ -173,6 +173,59 @@ public class formationServices {
         return retour;
     }
 
+    public formation getFormationById(Long formationId) {
+        String query = "SELECT titre, categories, prix, remise, duree, description, video FROM formation WHERE id = ?";
+        
+        try {
+            PreparedStatement prepStat = myConx.prepareStatement(query);
+            prepStat.setLong(1, formationId);
+            ResultSet resultSet = prepStat.executeQuery();
+
+            if (resultSet.next()) {
+                // Retrieve data from the result set
+                
+                String titre = resultSet.getString("titre");
+                String categories = resultSet.getString("categories");
+                double prix = resultSet.getDouble("prix");
+                float remise = resultSet.getFloat("remise");
+                String duree = resultSet.getString("duree");
+                String description = resultSet.getString("description");
+                String video = resultSet.getString("video");
+
+                // Create and return a Formation object
+                return new formation(formationId,titre,categories, prix, remise, duree,  description,video) ;
+            }
+        } catch (SQLException ex) {
+            System.err.println("SQL Error: " + ex.getMessage());
+        }
+
+        return null; // Return null if no matching formation is found
+    }
+    public int unicFormation(String titre){
+        String req="select * from formation where titre= ?;";
+        
+        try {
+            PreparedStatement prepStat = myConx.prepareStatement(req);
+            
+            prepStat.setString(1, titre);
+            
+            ResultSet rS= prepStat.executeQuery();
+            if(rS.next())
+                return -1;
+        
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+        
+        return 0;
+    }
+    }
+
+
+
+
+
+
+
     
-    
-}
+

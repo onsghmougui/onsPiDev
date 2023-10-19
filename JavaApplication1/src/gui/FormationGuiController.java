@@ -5,21 +5,31 @@
  */
 package gui;
 
+import connection.MyConnection;
 import formations.formation;
 import formations.formationServices;
 import java.io.IOException;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -33,10 +43,22 @@ import javafx.stage.Stage;
  *
  * @author ghmougui ons
  */
-public class FormationGuiController implements Initializable {
-   
+public class FormationGuiController implements Initializable { 
+    
+    formation Selecteditem;
     @FXML
-    private Button btnRechercher;
+    private Button menubtn;
+
+    public formation getSelecteditem() {
+        return Selecteditem;
+    }
+
+    public void setSelecteditem(formation Selecteditem) {
+        this.Selecteditem = Selecteditem;
+    }
+    
+    MyConnection conx= MyConnection.getInstance();
+    Connection myConx=conx.getConnection();
     @FXML
     private Button btnSupprimer;
     @FXML
@@ -64,6 +86,8 @@ public class FormationGuiController implements Initializable {
     private TextField tfsearch;
     @FXML
     private TableColumn<formation,String> videocolumn;
+    
+   
     /**
      * Initializes the controller class.
      * @param url
@@ -84,25 +108,64 @@ public class FormationGuiController implements Initializable {
         ObservableList <formation> formationList=FXCollections.observableArrayList(fS.retournerTout());
         tableFormation.setItems(formationList);
         //String path = new File("Source")
-    }    
+         FilteredList<formation> filteredData = new FilteredList<>(formationList, b -> true);
+		
+		// 2. Set the filter Predicate whenever the filter changes.
+		tfsearch.textProperty().addListener((observable, oldValue, newValue) -> {
+			filteredData.setPredicate(formation -> {
+				// If filter text is empty, display all persons.
+								
+				if (newValue == null || newValue.isEmpty()) {
+					return true;
+				}
+				
+				// Compare first name and last name of every person with filter text.
+				String lowerCaseFilter = newValue.toLowerCase();
+				
+				if (formation.getTitre().toLowerCase().indexOf(lowerCaseFilter) != -1 ) {
+					return true; // Filter matches first name.
+				} else if (formation.getCategories().toLowerCase().indexOf(lowerCaseFilter) != -1) {
+					return true; // Filter matches last name.
+				}
+				else if (String.valueOf(formation.getPrix()).indexOf(lowerCaseFilter)!=-1){
+				     return true;
+                                }else  
+				    	 return false; // Does not match.
+			});
+		});
+		
+		// 3. Wrap the FilteredList in a SortedList. 
+		SortedList<formation> sortedData = new SortedList<>(filteredData);
+		
+		// 4. Bind the SortedList comparator to the TableView comparator.
+		// 	  Otherwise, sorting the TableView would have no effect.
+		sortedData.comparatorProperty().bind(tableFormation.comparatorProperty());
+		
+		// 5. Add sorted (and filtered) data to the table.
+		tableFormation.setItems(sortedData);
+               
+    
+       
+    }
+
 private void afficher (TableColumn<formation, Long> idcolumn,TableColumn<formation,String> titrecolumn,TableColumn<formation,String> categoriecolumn,TableColumn<formation,Double> prixcolumn,TableColumn<formation,Float> remisecolumn,TableColumn<formation,String> dureecolumn,TableColumn<formation,String> descriptioncolumn,TableColumn<formation,String> videocolumn){
 }
     @FXML
     private void Ajout(ActionEvent event) {
            try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormationGui.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormationGui.fxml"));
 
-            Parent root = loader.load();
-            AddFormationGuiController aGF=loader.getController();
+                Parent root = loader.load();
+                AddFormationGuiController aGF=loader.getController();
             //btnAjouter.getScene().setRoot(root);
-            Stage newStage = new Stage();
+                Stage newStage = new Stage();
 
         // Set the scene for the new stage
-            Scene scene = new Scene(root);
-            newStage.setScene(scene);
+                Scene scene = new Scene(root);
+                newStage.setScene(scene);
 
         // Show the new stage
-            newStage.show();
+                newStage.show();
             
         }catch (IOException ex) {
             System.out.println("Error: "+ex.getMessage());
@@ -113,22 +176,40 @@ private void afficher (TableColumn<formation, Long> idcolumn,TableColumn<formati
     
 
 
-    @FXML
-    private void search(ActionEvent event) {
-    }
 
     @FXML
     private void delete(ActionEvent event) {
          formation f =tableFormation.getSelectionModel().getSelectedItem();
         if (f!= null){
-        ObservableList<formation> data= tableFormation.getItems();
-        formationServices fS= new formationServices();
-        int result = fS.supprimer(f);
-            System.out.println(result);
-            data.remove(f);
+            Alert confirmationAlert = new Alert(AlertType.CONFIRMATION);
+            confirmationAlert.setTitle("Confirmation");
+            confirmationAlert.setHeaderText("Are you sure you want to remove this product?");
+            confirmationAlert.setContentText("Click OK to remove the product or Cancel to keep it.");
+
+            // Show the confirmation dialog and wait for the user's response
+            Optional<ButtonType> result = confirmationAlert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+
+    
+            formationServices fS= new formationServices();
+            int deleteR = fS.supprimer(f);
+            System.out.println(deleteR);
+           
             
             
-       
+         idcolumn.setCellValueFactory(new PropertyValueFactory<formation,Long>("id"));
+        titrecolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("titre"));
+        categoriecolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("categories"));
+        prixcolumn.setCellValueFactory(new PropertyValueFactory<formation,Double>("prix"));
+        remisecolumn.setCellValueFactory(new PropertyValueFactory<formation,Float>("remise"));
+        dureecolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("duree"));
+        descriptioncolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("description"));
+        videocolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("video"));
+
+    
+        ObservableList <formation> formationList=FXCollections.observableArrayList(fS.retournerTout());
+        tableFormation.setItems(formationList);
+            }
         
         
         
@@ -136,11 +217,12 @@ private void afficher (TableColumn<formation, Long> idcolumn,TableColumn<formati
     }
 
     @FXML
-    private void modif(ActionEvent event) {
+    private void modif(ActionEvent event) throws SQLException {
         formation formationSelectionnee = tableFormation.getSelectionModel().getSelectedItem();
 
     if (formationSelectionnee != null) {
         try {
+           
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormationGui.fxml"));
             Parent root = loader.load();
             AddFormationGuiController addFormationController = loader.getController();
@@ -155,8 +237,17 @@ private void afficher (TableColumn<formation, Long> idcolumn,TableColumn<formati
         } catch (IOException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
-    }
+        setSelecteditem(formationSelectionnee);
+      String query = "INSERT INTO temp (idtemp) VALUES (?)";
 
+
+    PreparedStatement prepStat = myConx.prepareStatement(query);
+    prepStat.setLong(1, formationSelectionnee.getId());
+    
+    int rowsAffected = prepStat.executeUpdate();
+    
+    }
+    
 
 
 
@@ -195,9 +286,35 @@ stage.show();*/
         
     }
 
+   
+
+    
+
     @FXML
-    private void Ajout(MouseEvent event) {
+    private void menu(ActionEvent event) {
+         try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("AffichageFormationGui.fxml"));
+
+                Parent root = loader.load();
+                AffichageFormationGuiController aFG=loader.getController();
+            //btnAjouter.getScene().setRoot(root);
+                Stage newStage = new Stage();
+
+        // Set the scene for the new stage
+                Scene scene = new Scene(root);
+                newStage.setScene(scene);
+
+        // Show the new stage
+                newStage.show();
+            
+        }catch (IOException ex) {
+            System.out.println("Error: "+ex.getMessage());
+        }
     }
+
+    
+
+    
 
      
     
