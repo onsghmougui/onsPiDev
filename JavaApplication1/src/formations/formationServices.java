@@ -219,7 +219,41 @@ public class formationServices {
         
         return 0;
     }
+   public List<formation> getformationsByCategorie(String categ) throws SQLException {
+    MyConnection conx = MyConnection.getInstance();
+    Connection myConx = conx.getConnection();
+    String req = "SELECT * FROM formation WHERE categories = ?";
+
+    PreparedStatement prepStat = myConx.prepareStatement(req);
+    prepStat.setString(1, categ);
+
+    ResultSet resultSet = prepStat.executeQuery();
+
+    List<formation> formations = new ArrayList<>();
+
+    while (resultSet.next()) {
+        String titre = resultSet.getString("titre");
+        String categories = resultSet.getString("categories");
+        double prix = resultSet.getDouble("prix");
+        float remise = resultSet.getFloat("remise");
+        String duree = resultSet.getString("duree");
+        String description = resultSet.getString("description");
+        String video = resultSet.getString("video");
+
+        formation formResult = new formation(titre, categories, prix, remise, duree, description, video);
+        formations.add(formResult);
     }
+
+    // Close the result set and the prepared statement
+    resultSet.close();
+    prepStat.close();
+
+    return formations;
+}
+    
+    
+    }
+    
 
 
 

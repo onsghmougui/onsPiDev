@@ -14,6 +14,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -124,4 +126,59 @@ public class CardComController implements Initializable {
         return formationResult;
     
 }
+ public void setCat(String categ) throws SQLException {
+    List<formation> formations = getformationsByCategorie(categ);
+
+    // Check if there are formations in the list
+    if (!formations.isEmpty()) {
+        // For example, let's display the first formation from the list
+        formation f = formations.get(0);
+
+        titreformation.setText(f.getTitre());
+        prixformation.setText(String.valueOf(f.getPrix()));
+
+        Media media = new Media(f.getVideo());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        // Assuming mediaView is the name of your MediaView
+        mediaView.setMediaPlayer(mediaPlayer);
+
+        // Play the video (you can add play/stop/pause controls if needed)
+        mediaPlayer.play();
+    }
+}
+
+    public List<formation> getformationsByCategorie(String categ) throws SQLException {
+    MyConnection conx = MyConnection.getInstance();
+    Connection myConx = conx.getConnection();
+    String req = "SELECT * FROM formation WHERE categories = ?";
+
+    PreparedStatement prepStat = myConx.prepareStatement(req);
+    prepStat.setString(1, categ);
+
+    ResultSet resultSet = prepStat.executeQuery();
+
+    List<formation> formations = new ArrayList<>();
+
+    while (resultSet.next()) {
+        String titre = resultSet.getString("titre");
+        String categories = resultSet.getString("categories");
+        double prix = resultSet.getDouble("prix");
+        float remise = resultSet.getFloat("remise");
+        String duree = resultSet.getString("duree");
+        String description = resultSet.getString("description");
+        String video = resultSet.getString("video");
+
+        formation formResult = new formation(titre, categories, prix, remise, duree, description, video);
+        formations.add(formResult);
+    }
+
+    // Close the result set and the prepared statement
+    resultSet.close();
+    prepStat.close();
+
+    return formations;
+}
+
+    
 }

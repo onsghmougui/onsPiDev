@@ -25,10 +25,13 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -94,12 +97,37 @@ MyConnection conx= MyConnection.getInstance();
         
         
         int selectedValue = EvalSpinner.getValue();
-String textFieldValue = tfcommentaire.getText();
+        String textFieldValue = tfcommentaire.getText();
+        LocalDate localDate = LocalDate.now();
+        if (!tfcommentaire.getText().isEmpty()||(tfcommentaire.getText().length()>1))
+        {
+           if (!textFieldValue.isEmpty() && textFieldValue.length() > 1) {
+        String[] BadWords = {"merde", "shit", "israel", "mort", "bordel", "religion"};
+        String lowerInput = textFieldValue.toLowerCase();
+        boolean containsBadWords = false;
 
-      LocalDate localDate = LocalDate.now();
+        for (String word : BadWords) {
+            if (lowerInput.contains(word)) {
+                // Replace bad words with asterisks
+                textFieldValue = textFieldValue.replaceAll("(?i)" + word, "*****");
+                containsBadWords = true;
+            }
+        }
+
+        if (containsBadWords) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText("BE RESPECTFUL");
+            alert.showAndWait();
+        }
+    }
+        }
        
             commentaire c = new commentaire(4,textFieldValue, localDate, selectedValue);
             commentaireServices cs = new commentaireServices();
+            
+            
             cs.ajouter(c);
             
             afficherCom();
@@ -126,10 +154,7 @@ private void showErrorAlert(String message) {
 
 
  
-    
-
-
-void afficherCom(){
+  void afficherCom(){
 
 
  String query = "SELECT * FROM commentaire";
@@ -140,7 +165,7 @@ void afficherCom(){
             prepStat = myConx.prepareStatement(query);
        
             ResultSet resultSet = prepStat.executeQuery(query);
-                     ObservableList<commentaire> data = FXCollections.observableArrayList();
+            ObservableList<commentaire> data = FXCollections.observableArrayList();
 
              
              
@@ -149,6 +174,7 @@ void afficherCom(){
                 String text = resultSet.getString("text");
                 LocalDate date = resultSet.getDate("date").toLocalDate();
                int evaluation= resultSet.getInt("evaluation");
+               
                 commentaire com = new commentaire(idUser, text, date,evaluation);
                 data.add(com);
             }
@@ -156,11 +182,11 @@ void afficherCom(){
       
 
         // Set the cell value factories for each column
-     idcol.setCellValueFactory(new PropertyValueFactory<>("iduser"));
-     textcol.setCellValueFactory(new PropertyValueFactory<>("text"));
-     datecol.setCellValueFactory(new PropertyValueFactory<>("date"));
-     evalcol.setCellValueFactory(new PropertyValueFactory<>("evaluation"));
-    tableCommentaire.setItems(data);
+        idcol.setCellValueFactory(new PropertyValueFactory<>("iduser"));
+        textcol.setCellValueFactory(new PropertyValueFactory<>("text"));
+        datecol.setCellValueFactory(new PropertyValueFactory<>("date"));
+        evalcol.setCellValueFactory(new PropertyValueFactory<>("evaluation"));
+        tableCommentaire.setItems(data);
 
 
         
@@ -171,6 +197,20 @@ void afficherCom(){
         }
         
 }
+
+
+
+
+
+
+
+ 
+
+
+
+   
+
+
 
     @FXML
     private void modifierC(MouseEvent event) {
@@ -229,4 +269,34 @@ void afficherCom(){
     }
     }
        afficherCom();
-    }}
+    }
+    /*public boolean BadWordCheck(String input) {
+  
+    String[] BadWords = {"merde", "shit", "israel", "mort", "bordel", "religion"};
+
+
+    String lowerInput = input.toLowerCase();
+
+    for (String word : BadWords) {
+        if (lowerInput.contains(word.toLowerCase())) {
+            return true; 
+        }
+    }
+
+    return false; 
+}
+
+    private String replaceBadWordsWithAsterisks(String input) {
+    String[] BadWords = {"merde", "shit", "israel", "mort", "bordel", "religion"};
+    String lowerInput = input.toLowerCase();
+
+    for (String word : BadWords) {
+        if (lowerInput.contains(word.toLowerCase())) {
+            // Replace bad words with asterisks
+            input = input.replaceAll("(?i)" + word, "*****");
+        }
+    }
+
+    return input;
+}*/
+}

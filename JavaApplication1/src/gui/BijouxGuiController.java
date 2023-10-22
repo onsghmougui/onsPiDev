@@ -14,9 +14,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -29,7 +26,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -39,23 +35,22 @@ import javafx.stage.Stage;
  *
  * @author ghmougui ons
  */
-public class AffichageFormationGuiController implements Initializable {
+public class BijouxGuiController implements Initializable {
 
     @FXML
     private AnchorPane AnchorOrder;
     @FXML
     private GridPane menu_gridPane;
     @FXML
+    private Button poteriebtn;
+    @FXML
     private Button tapisseriebtn;
     @FXML
     private Button bijouxbtn;
     @FXML
     private Button cuisinebtn;
-    
     private ObservableList<formation> cardListData=FXCollections.observableArrayList();
     formationServices fs=new formationServices();
-    @FXML
-    private Button poteriebtn1;
 
     /**
      * Initializes the controller class.
@@ -63,30 +58,26 @@ public class AffichageFormationGuiController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-         //refreshOrder();
+        //refreshOrder();
         try {
             menuDisplayCard();
         } catch (SQLException ex) {
-            Logger.getLogger(AffichageFormationGuiController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BijouxGuiController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(AffichageFormationGuiController.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BijouxGuiController.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+    }
     
-       
-   
-   
-   }
-                // TODO
-            
-
-
-public void menuDisplayCard() throws SQLException, IOException {
+    
+    
+    
+    
+    public void menuDisplayCard() throws SQLException, IOException {
     int column = 0;
     int row = 0;
     
     cardListData.clear();
-    cardListData.addAll(fs.retournerTout());
+    cardListData.addAll(fs.getformationsByCategorie("bijoux"));
 
     for (formation f : cardListData) {
         try {
@@ -95,7 +86,7 @@ public void menuDisplayCard() throws SQLException, IOException {
             CardComController CCC = loader.getController();
 
             // Assuming getId_pdts() is the method to retrieve the product ID
-            CCC.setData(f.getId());
+            CCC.setCat(f.getCategories());
             if (column == 3) {
                 column = 0;
                 row += 1;
@@ -107,32 +98,28 @@ public void menuDisplayCard() throws SQLException, IOException {
         }
     }
 }
-
-
-  
-  
-  public formation getformationByID(int id) throws SQLException{
+    /*public formation getformationByCategorie(String categ) throws SQLException{
          MyConnection conx= MyConnection.getInstance();
         Connection myConx=conx.getConnection();
-        String req="SELECT * FROM formation WHERE id= ?";
+        String req="SELECT * FROM formation WHERE categories= ?";
     
     
         PreparedStatement prepStat = myConx.prepareStatement(req);
-         prepStat.setInt(1, id);
+         prepStat.setString(1, categ);
          
         ResultSet resultSet = prepStat.executeQuery();
 
-formation formResult = null;
+    formation formResult = null;
 
-if (resultSet.next()) {
+    if (resultSet.next()) {
   
-    String titre = resultSet.getString("titre");
-    String categories = resultSet.getString("categories");
-    double prix = resultSet.getDouble("prix");
-    float remise = resultSet.getFloat("remise");
-    String duree = resultSet.getString("duree");
-    String description = resultSet.getString("description");
-    String video = resultSet.getString("video");
+        String titre = resultSet.getString("titre");
+        String categories = resultSet.getString("categories");
+        double prix = resultSet.getDouble("prix");
+        float remise = resultSet.getFloat("remise");
+        String duree = resultSet.getString("duree");
+        String description = resultSet.getString("description");
+        String video = resultSet.getString("video");
   
     formResult = new formation(titre, categories, prix, remise, duree, description, video);
 }
@@ -144,41 +131,14 @@ prepStat.close();
 return formResult;
     
     
-    }
+    }*/
     
-  
-  
-  
-  
-  
-  
-  
- /* public List<Long> getAllFormationIds() {
-    List<Long> formationIds = new ArrayList<>();
-    try {
-        // Establish a database connection and execute a query to fetch all IDs
-        MyConnection conx= MyConnection.getInstance();
-        String query = "SELECT id FROM formation"; 
-        Statement statement = conx.createStatement();
-        ResultSet resultSet = statement.executeQuery(query);
-
-        while (resultSet.next()) {
-            Long id = resultSet.getLong("idPdts");
-            formationIds.add(id);
-        }
-
-        // Close resources
-        resultSet.close();
-        statement.close();
-        conx.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
-    return formationIds;
-}*/
     
-
-
+    
+    
+   
+    
+    
     
 
     @FXML
@@ -187,7 +147,7 @@ return formResult;
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("PoterieGui.fxml"));
 
                 Parent root = loader.load();
-                PoterieGuiController pG = loader.getController();
+                PoterieGuiController pG=loader.getController();
             //btnAjouter.getScene().setRoot(root);
                 Stage newStage = new Stage();
                 newStage.setTitle("Poterie");
@@ -208,14 +168,13 @@ return formResult;
 
     @FXML
     private void bijoux(ActionEvent event) {
-        try {
+        /*try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("BijouxGui.fxml"));
 
                 Parent root = loader.load();
-                BijouxGuiController pG=loader.getController();
+                PoterieGuiController pG=loader.getController();
             //btnAjouter.getScene().setRoot(root);
                 Stage newStage = new Stage();
-                newStage.setTitle("Bijoux");
 
         // Set the scene for the new stage
                 Scene scene = new Scene(root);
@@ -226,7 +185,7 @@ return formResult;
             
         }catch (IOException ex) {
             System.out.println("Error: "+ex.getMessage());
-        }
+        }*/
     }
 
     @FXML
@@ -275,6 +234,5 @@ return formResult;
             System.out.println("Error: "+ex.getMessage());
         }
     }
-
     
 }

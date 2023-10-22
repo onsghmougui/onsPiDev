@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AffichageFormationGuiController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.TapisserieGuiController">
    <children>
       <AnchorPane fx:id="AnchorOrder" layoutX="189.0" prefHeight="511.0" prefWidth="586.0">
          <children>
@@ -23,7 +23,7 @@
             </ScrollPane>
          </children>
       </AnchorPane>
-      <Button fx:id="poteriebtn" layoutX="14.0" layoutY="187.0" mnemonicParsing="false" onAction="#poterie" prefHeight="41.0" prefWidth="130.0" style="-fx-background-color: #c87a19;" text="Poterie" textFill="WHITE" />
+      <Button fx:id="poteriebtn" layoutX="14.0" layoutY="187.0" mnemonicParsing="false" onMouseClicked="#poterie" prefHeight="41.0" prefWidth="130.0" style="-fx-background-color: #c87a19;" text="Poterie" textFill="WHITE" />
       <Button fx:id="tapisseriebtn" layoutX="14.0" layoutY="229.0" mnemonicParsing="false" onAction="#tapisserie" prefHeight="42.0" prefWidth="130.0" style="-fx-background-color: #c87a19;" text="Tapisserie" textFill="WHITE" />
       <Button fx:id="bijouxbtn" layoutX="14.0" layoutY="271.0" mnemonicParsing="false" onAction="#bijoux" prefHeight="42.0" prefWidth="130.0" style="-fx-background-color: #c87a19;" text="Bijoux" textFill="WHITE" />
       <Button fx:id="cuisinebtn" layoutX="14.0" layoutY="313.0" mnemonicParsing="false" onAction="#cuisine" prefHeight="42.0" prefWidth="130.0" style="-fx-background-color: #c87a19;" text="Cuisine" textFill="WHITE" />
