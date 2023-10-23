@@ -5,6 +5,12 @@
  */
 package gui;
 
+import com.restfb.DefaultFacebookClient;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.Version;
+import com.restfb.exception.FacebookException;
+import com.restfb.types.FacebookType;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -79,6 +85,8 @@ MyConnection conx= MyConnection.getInstance();
     @FXML
     private Spinner<Integer> EvalSpinner;
     SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1);
+    @FXML
+    private Button publierbtn;
 
     /**
      * Initializes the controller class.
@@ -299,4 +307,32 @@ private void showErrorAlert(String message) {
 
     return input;
 }*/
+
+    @FXML
+    private void Publier(ActionEvent event) {
+        String commentaireText = tfcommentaire.getText();
+        // Vérifiez si le texte du commentaire n'est pas vide
+    if (commentaireText != null && !commentaireText.isEmpty()) {
+        // Utilisez le texte du commentaire pour créer un objet de commentaire
+        commentaire com = new commentaire();
+        com.setText(commentaireText);
+        FacebookClient facebookClient = new DefaultFacebookClient("EAADztaDMZA8wBO3ceB0N6w8GF6ZAFK2ZCFZBSaEHqZBrB5shuN0CP70spZASQZAfTZBgjZAyEfpQEtdkfZBJYdSlbIQhaLIJoxY2mr4mWn8KH8swXxHa95xCiy0laZCT1oHu5kUY2sfXXnM6ZC4INwc2QdZCDrWECZCvOWv1A14PfcnTOFJRNOxTD6RLMERjc9JU1EIRlzu6YQ0BevOSNLT6LdPVeZA7iUZD", Version.LATEST);
+        try {
+            // Remplacez "ID_DE_LA_PAGE" par l'identifiant de la page Facebook sur laquelle vous souhaitez publier le commentaire
+            String pageId = "109919471909965";
+
+            // Publiez le commentaire sur la page
+            facebookClient.publish(pageId + "/feed", FacebookType.class, Parameter.with("message", com.getText()));
+
+            // Le commentaire a été publié avec succès
+            System.out.println("Commentaire publié avec succès.");
+        } catch (FacebookException e) {
+            // Gérez les erreurs, par exemple, si le jeton d'accès est expiré ou s'il y a une erreur de publication
+            System.err.println("Erreur lors de la publication du commentaire : " + e.getMessage());
+        }
+    } else {
+        // Affichez un message d'erreur si le champ de commentaire est vide
+        System.err.println("Le champ de commentaire est vide.");
+    }
+    }
 }

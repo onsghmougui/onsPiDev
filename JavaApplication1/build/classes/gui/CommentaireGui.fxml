@@ -25,5 +25,6 @@
             <TableColumn fx:id="evalcol" prefWidth="103.199951171875" text="Evaluation" />
          </columns></TableView>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c87a19" height="111.0" stroke="BLACK" strokeType="INSIDE" width="783.0" />
+      <Button fx:id="publierbtn" layoutX="479.0" layoutY="555.0" mnemonicParsing="false" onAction="#Publier" prefHeight="43.0" prefWidth="110.0" text="Publier" />
    </children>
 </AnchorPane>
