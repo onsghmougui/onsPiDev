@@ -22,7 +22,7 @@ public class MainFormation extends Application {
     public void start(Stage primaryStage) {
         
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("FormationGui.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("AffichageFormationGui.fxml"));
             
             Scene scene = new Scene(root);
             

@@ -71,7 +71,7 @@ public class CommentaireGuiController implements Initializable {
     private TextField tfcommentaire;
     @FXML
     private TableView<commentaire> tableCommentaire;
-MyConnection conx= MyConnection.getInstance();
+    MyConnection conx= MyConnection.getInstance();
     Connection myConx=conx.getConnection();
   
     @FXML
@@ -87,6 +87,14 @@ MyConnection conx= MyConnection.getInstance();
     SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 5, 1);
     @FXML
     private Button publierbtn;
+    
+    
+     private long formationId;
+
+    public void setFormationId(long formationId) {
+        this.formationId = formationId;
+    }
+    
 
     /**
      * Initializes the controller class.
@@ -95,6 +103,8 @@ MyConnection conx= MyConnection.getInstance();
     public void initialize(URL url, ResourceBundle rb) {
        EvalSpinner.setValueFactory(valueFactory);
        afficherCom();
+      
+       
         
     }    
 
@@ -102,7 +112,7 @@ MyConnection conx= MyConnection.getInstance();
     private void ajouterC(ActionEvent event) {
         
         
-        
+      
         
         int selectedValue = EvalSpinner.getValue();
         String textFieldValue = tfcommentaire.getText();
@@ -131,14 +141,17 @@ MyConnection conx= MyConnection.getInstance();
         }
     }
         }
-       
-            commentaire c = new commentaire(4,textFieldValue, localDate, selectedValue);
+     
+            commentaire c = new commentaire(6,textFieldValue, localDate, selectedValue);
             commentaireServices cs = new commentaireServices();
             
             
             cs.ajouter(c);
             
             afficherCom();
+            // Après avoir ajouté l'évaluation, calculez la moyenne et mettez à jour le label
+            /*double moyenne = calculerMoyenneEvaluations();
+            moyenneEval.setText(String.format("%.2f", moyenne)); // Affiche la moyenne avec deux décimales*/
        
         
     }
@@ -209,17 +222,7 @@ private void showErrorAlert(String message) {
 
 
 
-
-
-
- 
-
-
-
    
-
-
-
     @FXML
     private void modifierC(MouseEvent event) {
          commentaire c2 = tableCommentaire.getSelectionModel().getSelectedItem();
@@ -316,7 +319,7 @@ private void showErrorAlert(String message) {
         // Utilisez le texte du commentaire pour créer un objet de commentaire
         commentaire com = new commentaire();
         com.setText(commentaireText);
-        FacebookClient facebookClient = new DefaultFacebookClient("EAADztaDMZA8wBO3ceB0N6w8GF6ZAFK2ZCFZBSaEHqZBrB5shuN0CP70spZASQZAfTZBgjZAyEfpQEtdkfZBJYdSlbIQhaLIJoxY2mr4mWn8KH8swXxHa95xCiy0laZCT1oHu5kUY2sfXXnM6ZC4INwc2QdZCDrWECZCvOWv1A14PfcnTOFJRNOxTD6RLMERjc9JU1EIRlzu6YQ0BevOSNLT6LdPVeZA7iUZD", Version.LATEST);
+        FacebookClient facebookClient = new DefaultFacebookClient("EAADztaDMZA8wBO8FYrZAMzPr3cRQyuMFQYsx81MSycB3dxlCLZBa1DOHEoBqq2UfJ581BxLaKKWkoYx9MdNaIY9YggPDh7AQKpCjmXOKUD5q6TRD3oqZC8TccBHfTfsJ44D1ehmHJqf0xGmnY7Ymy1K3Dyqp0UJnQPnMTCe3HipjqAZAlO7NePC5cMkDas0UZD", Version.LATEST);
         try {
             // Remplacez "ID_DE_LA_PAGE" par l'identifiant de la page Facebook sur laquelle vous souhaitez publier le commentaire
             String pageId = "109919471909965";
@@ -335,4 +338,23 @@ private void showErrorAlert(String message) {
         System.err.println("Le champ de commentaire est vide.");
     }
     }
+    
+    
+    /*public double calculerMoyenneEvaluations() {
+    double sommeEvaluations = 0.0;
+    int nombreEvaluations = 0;
+
+    // Parcourez les évaluations et calculez la somme des évaluations et le nombre d'évaluations
+    for (commentaire com : tableCommentaire.getItems()) {
+        sommeEvaluations += com.getEvaluation();
+        nombreEvaluations++;
+    }
+
+    // Calcul de la moyenne
+    if (nombreEvaluations > 0) {
+        return sommeEvaluations / nombreEvaluations;
+    } else {
+        return 0.0; // Aucune évaluation n'a été ajoutée
+    }
+}*/
 }

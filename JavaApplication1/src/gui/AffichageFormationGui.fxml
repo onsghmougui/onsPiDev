@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AffichageFormationGuiController">
    <children>
@@ -32,5 +34,15 @@
             <Image url="@../logo/logo%20pidev.png" />
          </image>
       </ImageView>
+      <Label layoutX="25.0" layoutY="156.0" text="Catégories:" textFill="#5b524f">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="btnajouter" layoutX="81.0" layoutY="449.0" mnemonicParsing="false" onAction="#ajouter" prefHeight="30.0" prefWidth="97.0" style="-fx-background-color: #5B524F;" text="Ajouter F" textFill="#b8560e">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

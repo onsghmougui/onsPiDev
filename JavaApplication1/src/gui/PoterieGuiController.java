@@ -63,12 +63,12 @@ public class PoterieGuiController implements Initializable {
             Logger.getLogger(PoterieGuiController.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
-  public void menuDisplayCard() throws SQLException, IOException {
+   public void menuDisplayCard() throws SQLException, IOException {
     int column = 0;
     int row = 0;
-    
+    String categ = "poterie";
     cardListData.clear();
-    cardListData.addAll(fs.getformationsByCategorie("poterie")); // Use the corrected function
+    cardListData.addAll(fs.getformationsByCategorie(categ));
 
     for (formation f : cardListData) {
         try {
@@ -76,21 +76,19 @@ public class PoterieGuiController implements Initializable {
             AnchorPane pane = loader.load();
             CardComController CCC = loader.getController();
 
-            // Set the content for the CardComController
-            CCC.setData(f.getId()); // Assuming this method is used to set formation data
-
+            // Assuming getId_pdts() is the method to retrieve the product ID
+            CCC.setData(f.getId());
             if (column == 3) {
                 column = 0;
                 row += 1;
+                
             }
-            
             menu_gridPane.add(pane, column++, row);
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 }
-
 
    @FXML
     private void poterie(ActionEvent event) {

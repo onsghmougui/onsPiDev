@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.media.MediaView?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="234.0" prefWidth="273.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.CardComController">
    <children>
@@ -37,10 +38,13 @@
                   </Button>
                </children>
             </HBox>
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Label">
+            <Label fx:id="moyenneEval" alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="38.0">
                <VBox.margin>
                   <Insets left="120.0" />
                </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
             </Label>
          </children>
       </VBox>

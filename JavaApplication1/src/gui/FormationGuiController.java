@@ -34,8 +34,12 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.FloatStringConverter;
+import javafx.util.converter.LongStringConverter;
 
 
 /**
@@ -86,6 +90,7 @@ public class FormationGuiController implements Initializable {
     private TextField tfsearch;
     @FXML
     private TableColumn<formation,String> videocolumn;
+    formationServices fs= new formationServices();
     
    
     /**
@@ -103,10 +108,22 @@ public class FormationGuiController implements Initializable {
         dureecolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("duree"));
         descriptioncolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("description"));
         videocolumn.setCellValueFactory(new PropertyValueFactory<formation,String>("video"));
+        
 
         formationServices fS= new formationServices();
         ObservableList <formation> formationList=FXCollections.observableArrayList(fS.retournerTout());
-        tableFormation.setItems(formationList);
+  
+        
+        idcolumn.setCellFactory(TextFieldTableCell.forTableColumn(new LongStringConverter()));
+            titrecolumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            categoriecolumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            prixcolumn.setCellFactory(TextFieldTableCell.forTableColumn(new DoubleStringConverter()));
+            remisecolumn.setCellFactory(TextFieldTableCell.forTableColumn(new FloatStringConverter()));
+            dureecolumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            descriptioncolumn.setCellFactory(TextFieldTableCell.forTableColumn());
+            videocolumn.setCellFactory(TextFieldTableCell.forTableColumn());
+
+            tableFormation.setItems(formationList);
         //String path = new File("Source")
          FilteredList<formation> filteredData = new FilteredList<>(formationList, b -> true);
 		
@@ -142,8 +159,8 @@ public class FormationGuiController implements Initializable {
 		sortedData.comparatorProperty().bind(tableFormation.comparatorProperty());
 		
 		// 5. Add sorted (and filtered) data to the table.
-		tableFormation.setItems(sortedData);
-               
+		//tableFormation.setItems(sortedData);
+            
     
        
     }
@@ -311,6 +328,104 @@ stage.show();*/
             System.out.println("Error: "+ex.getMessage());
         }
     }
+
+    @FXML
+    private void id(TableColumn.CellEditEvent<formation, Long> event) {
+        /*Long newValue = event.getNewValue();
+        formation editedFormation = event.getRowValue();
+    
+    if (editedFormation != null) {
+        editedFormation.setId(newValue);
+        // You can also save changes to the database if needed
+    }
+    fs.modifier(editedFormation);*/
+    }
+
+    @FXML
+    private void titre(TableColumn.CellEditEvent<formation, String> event) {
+           String newValue = event.getNewValue();
+        formation editedFormation = event.getRowValue();
+    
+    if (editedFormation != null) {
+        editedFormation.setTitre(newValue);
+        // You can also save changes to the database if needed
+    }
+    fs.modifier(editedFormation);
+    }
+
+    @FXML
+    private void categorie(TableColumn.CellEditEvent<formation, String> event) {
+           String newValue = event.getNewValue();
+        formation editedFormation = event.getRowValue();
+    
+    if (editedFormation != null) {
+        editedFormation.setCategories(newValue);
+        // You can also save changes to the database if needed
+    }
+    fs.modifier(editedFormation);
+    }
+
+    @FXML
+    private void prix(TableColumn.CellEditEvent<formation, Double> event) {
+           Double newValue = event.getNewValue();
+        formation editedFormation = event.getRowValue();
+    
+    if (editedFormation != null) {
+        editedFormation.setPrix(newValue);
+        // You can also save changes to the database if needed
+    }
+    fs.modifier(editedFormation);
+    }
+
+    @FXML
+    private void remise(TableColumn.CellEditEvent<formation, Float> event) {
+           Float newValue = event.getNewValue();
+        formation editedFormation = event.getRowValue();
+    
+    if (editedFormation != null) {
+        editedFormation.setRemise(newValue);
+        // You can also save changes to the database if needed
+    }
+    fs.modifier(editedFormation);
+    }
+
+    @FXML
+    private void duree(TableColumn.CellEditEvent<formation, String> event) {
+           String newValue = event.getNewValue();
+        formation editedFormation = event.getRowValue();
+    
+    if (editedFormation != null) {
+        editedFormation.setDuree(newValue);
+        // You can also save changes to the database if needed
+    }
+    fs.modifier(editedFormation);
+    }
+
+    @FXML
+    private void description(TableColumn.CellEditEvent<formation, String> event) {
+        String newValue = event.getNewValue();
+        formation editedFormation = event.getRowValue();
+    
+    if (editedFormation != null) {
+        editedFormation.setDescription(newValue);
+        // You can also save changes to the database if needed
+    }
+    fs.modifier(editedFormation);
+    }
+
+    @FXML
+    private void video(TableColumn.CellEditEvent<formation, String> event) {
+           String newValue = event.getNewValue();
+        formation editedFormation = event.getRowValue();
+    
+    if (editedFormation != null) {
+        editedFormation.setVideo(newValue);
+        // You can also save changes to the database if needed
+    }
+    fs.modifier(editedFormation);
+    }
+
+    
 
     
 

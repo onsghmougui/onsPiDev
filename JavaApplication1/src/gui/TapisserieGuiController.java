@@ -10,7 +10,10 @@ import formations.formationServices;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
@@ -67,9 +70,9 @@ public class TapisserieGuiController implements Initializable {
   public void menuDisplayCard() throws SQLException, IOException {
     int column = 0;
     int row = 0;
-    
+    String categ = "tapisserie";
     cardListData.clear();
-    cardListData.addAll(fs.getformationsByCategorie("poterie"));
+    cardListData.addAll(fs.getformationsByCategorie(categ));
 
     for (formation f : cardListData) {
         try {
@@ -78,7 +81,7 @@ public class TapisserieGuiController implements Initializable {
             CardComController CCC = loader.getController();
 
             // Assuming getId_pdts() is the method to retrieve the product ID
-            CCC.setCat(f.getCategories());
+            CCC.setData(f.getId());
             if (column == 3) {
                 column = 0;
                 row += 1;
@@ -90,6 +93,9 @@ public class TapisserieGuiController implements Initializable {
         }
     }
 }
+
+   
+    
 
     @FXML
     private void poterie(ActionEvent event) {

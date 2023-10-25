@@ -55,7 +55,9 @@ public class AffichageFormationGuiController implements Initializable {
     private ObservableList<formation> cardListData=FXCollections.observableArrayList();
     formationServices fs=new formationServices();
     @FXML
-    private Button poteriebtn1;
+    private Button poteriebtn;
+    @FXML
+    private Button btnajouter;
 
     /**
      * Initializes the controller class.
@@ -102,6 +104,7 @@ public void menuDisplayCard() throws SQLException, IOException {
                 
             }
             menu_gridPane.add(pane, column++, row);
+            System.out.println(f.getId());
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -274,6 +277,30 @@ return formResult;
         }catch (IOException ex) {
             System.out.println("Error: "+ex.getMessage());
         }
+    }
+
+    @FXML
+    private void ajouter(ActionEvent event) {
+        try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("FormationGui.fxml"));
+
+                Parent root = loader.load();
+                FormationGuiController pG=loader.getController();
+            //btnAjouter.getScene().setRoot(root);
+                Stage newStage = new Stage();
+                newStage.setTitle("Formations");
+
+        // Set the scene for the new stage
+                Scene scene = new Scene(root);
+                newStage.setScene(scene);
+
+        // Show the new stage
+                newStage.show();
+            
+        }catch (IOException ex) {
+            System.out.println("Error: "+ex.getMessage());
+        }
+        
     }
 
     

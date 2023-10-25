@@ -63,12 +63,12 @@ public class CuisineGuiController implements Initializable {
             Logger.getLogger(CuisineGuiController.class.getName()).log(Level.SEVERE, null, ex);
         }
     } 
-    public void menuDisplayCard() throws SQLException, IOException {
+   public void menuDisplayCard() throws SQLException, IOException {
     int column = 0;
     int row = 0;
-    
+    String categ = "cuisine";
     cardListData.clear();
-    cardListData.addAll(fs.getformationsByCategorie("cuisine"));
+    cardListData.addAll(fs.getformationsByCategorie(categ));
 
     for (formation f : cardListData) {
         try {
@@ -77,7 +77,7 @@ public class CuisineGuiController implements Initializable {
             CardComController CCC = loader.getController();
 
             // Assuming getId_pdts() is the method to retrieve the product ID
-            CCC.setCat(f.getCategories());
+            CCC.setData(f.getId());
             if (column == 3) {
                 column = 0;
                 row += 1;

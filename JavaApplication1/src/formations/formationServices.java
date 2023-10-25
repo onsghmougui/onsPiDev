@@ -117,22 +117,22 @@ public class formationServices {
     }
 
     
-    public formation modifier(formation t, formation n) {
+    public formation modifier(formation editedFormation) {
         String req = "UPDATE `formation` SET  id = ? ,`titre` = ?, `categories` = ?,`prix` = ? ,`remise` = ?, `duree` = ?,`description` = ? ,`video` = ?  WHERE `formation`.`id` = ?;";
         try {
             
             PreparedStatement prepStat = myConx.prepareStatement(req);
-            prepStat.setLong(1, t.getId());
-            prepStat.setString(2, n.getTitre());
-            prepStat.setString(3, n.getCategories());
-            prepStat.setDouble(4, n.getPrix());
-            prepStat.setFloat(5, t.getRemise());
-            prepStat.setString(6, t.getDuree());
+            prepStat.setLong(1, editedFormation.getId());
+            prepStat.setString(2, editedFormation.getTitre());
+            prepStat.setString(3, editedFormation.getCategories());
+            prepStat.setDouble(4, editedFormation.getPrix());
+            prepStat.setFloat(5, editedFormation.getRemise());
+            prepStat.setString(6, editedFormation.getDuree());
     
-            prepStat.setString(7, t.getDescription());
-            prepStat.setString(8, t.getVideo());
-            prepStat.setLong(9, t.getId());
-            int rowsAffected =  prepStat.executeUpdate();
+            prepStat.setString(7, editedFormation.getDescription());
+            prepStat.setString(8, editedFormation.getVideo());
+            prepStat.setLong(9, editedFormation.getId());
+             prepStat.executeUpdate();
            
             
             
@@ -140,7 +140,7 @@ public class formationServices {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
-        return n;
+        return editedFormation;
     }
     public List<formation> retournerTout() {
         List<formation> retour= new ArrayList();
@@ -219,7 +219,7 @@ public class formationServices {
         
         return 0;
     }
-   public List<formation> getformationsByCategorie(String categ) throws SQLException {
+  /* public List<formation> getformationsByCategorie(String categ) throws SQLException {
     MyConnection conx = MyConnection.getInstance();
     Connection myConx = conx.getConnection();
     String req = "SELECT * FROM formation WHERE categories = ?";
@@ -249,13 +249,34 @@ public class formationServices {
     prepStat.close();
 
     return formations;
-}
-    
-    
+}*/
+    public List<formation> getformationsByCategorie(String categorie) throws SQLException {
+    List<formation> retour = new ArrayList<>();
+    String req = "SELECT * FROM formation WHERE categories = ?";
+
+    try {
+        PreparedStatement prepStat = myConx.prepareStatement(req);
+        prepStat.setString(1, categorie);  // Set the category parameter
+        ResultSet rS = prepStat.executeQuery();
+
+        while (rS.next()) {
+            formation found = new formation();
+            found.setId(rS.getLong("id"));
+            found.setTitre(rS.getString("titre"));
+            found.setCategories(rS.getString("categories"));
+            found.setPrix(rS.getDouble("prix"));
+            found.setRemise(rS.getFloat("remise"));
+            found.setDuree(rS.getString("duree"));
+            found.setDescription(rS.getString("description"));
+            found.setVideo(rS.getString("video"));
+            retour.add(found);
+        }
+    } catch (SQLException ex) {
+        System.out.println(ex.getMessage());
     }
-    
-
-
+    return retour;
+}
+}
 
 
 

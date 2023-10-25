@@ -72,12 +72,12 @@ public class BijouxGuiController implements Initializable {
     
     
     
-    public void menuDisplayCard() throws SQLException, IOException {
+  public void menuDisplayCard() throws SQLException, IOException {
     int column = 0;
     int row = 0;
-    
+    String categ = "bijoux";
     cardListData.clear();
-    cardListData.addAll(fs.getformationsByCategorie("bijoux"));
+    cardListData.addAll(fs.getformationsByCategorie(categ));
 
     for (formation f : cardListData) {
         try {
@@ -86,7 +86,7 @@ public class BijouxGuiController implements Initializable {
             CardComController CCC = loader.getController();
 
             // Assuming getId_pdts() is the method to retrieve the product ID
-            CCC.setCat(f.getCategories());
+            CCC.setData(f.getId());
             if (column == 3) {
                 column = 0;
                 row += 1;

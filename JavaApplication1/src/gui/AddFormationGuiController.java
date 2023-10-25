@@ -6,6 +6,12 @@
 package gui;
 
 
+import com.restfb.DefaultFacebookClient;
+import com.restfb.DefaultWebRequestor;
+import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.Version;
+import com.restfb.types.FacebookType;
 import connection.MyConnection;
 import formations.formation;
 import formations.formationServices;
@@ -19,6 +25,8 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -29,6 +37,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -46,8 +55,7 @@ public class AddFormationGuiController implements Initializable {
 
     @FXML
     private TextField tfTitre;
-    @FXML
-    private TextField tfCategorie;
+    
     @FXML
     private TextField tfPrix;
     @FXML
@@ -63,7 +71,12 @@ public class AddFormationGuiController implements Initializable {
     @FXML
     private MediaView mediaView;
     @FXML
-    private Button btnModifier;
+    private ComboBox<String> combocateg;
+    ObservableList<String> List = FXCollections.observableArrayList("Poterie","Tapiserie","Cuisine","Bijoux");
+    @FXML
+    private Button btnPublier;
+    MyConnection conx= MyConnection.getInstance();
+    Connection myConx=conx.getConnection();
     
     
     
@@ -76,6 +89,7 @@ public class AddFormationGuiController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
+        combocateg.setItems(List);
     }    
 
     
@@ -105,7 +119,7 @@ public class AddFormationGuiController implements Initializable {
     private void SavePerson(MouseEvent event) {
         try {
             String titre = tfTitre.getText();
-            String categorie = tfCategorie.getText();
+            String categorie = combocateg.getValue();
             double prix =Double.parseDouble(tfPrix.getText());
             float remise =Float.parseFloat(tfRemise.getText());
             String duree = tfDuree.getText();
@@ -149,7 +163,7 @@ public class AddFormationGuiController implements Initializable {
     public void remplirChamps(formation formation) {
         // Remplissez les champs avec les informations de la formation
         tfTitre.setText(formation.getTitre());
-        tfCategorie.setText(formation.getCategories());
+        combocateg.setValue(formation.getCategories());
         tfPrix.setText(String.valueOf(formation.getPrix()));
         tfRemise.setText(String.valueOf(formation.getRemise()));
         tfDuree.setText(formation.getDuree());
@@ -163,16 +177,15 @@ public class AddFormationGuiController implements Initializable {
        
         // Remplissez d'autres champs en conséquence
     }
- MyConnection conx= MyConnection.getInstance();
-    Connection myConx=conx.getConnection();
-    @FXML
-    private void Modifier(MouseEvent event) throws SQLException, IOException {
+    
+
+    /*private void Modifier(MouseEvent event) throws SQLException, IOException {
       formationServices fs = new formationServices();
       
        
         
        String titre = tfTitre.getText();
-            String categorie = tfCategorie.getText();
+            String categorie = combocateg.getValue();
             double prix =Double.parseDouble(tfPrix.getText());
             float remise =Float.parseFloat(tfRemise.getText());
             String duree = tfDuree.getText();
@@ -199,29 +212,71 @@ public class AddFormationGuiController implements Initializable {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.sizeToScene(); // Redimensionne la scène en fonction de son contenu
+    }*/
+
+    @FXML
+    private void publier(ActionEvent event) {
+     
+      
+      
+        String accessToken = "EAADztaDMZA8wBO8FYrZAMzPr3cRQyuMFQYsx81MSycB3dxlCLZBa1DOHEoBqq2UfJ581BxLaKKWkoYx9MdNaIY9YggPDh7AQKpCjmXOKUD5q6TRD3oqZC8TccBHfTfsJ44D1ehmHJqf0xGmnY7Ymy1K3Dyqp0UJnQPnMTCe3HipjqAZAlO7NePC5cMkDas0UZD";
+
+        // Remplacez "PAGE_ID" par l'ID de la page sur laquelle vous souhaitez publier la vidéo.
+        String pageId = "109919471909965";
+
+        // Le texte de la publication sera le titre de la formation.
+        String message = tfTitre.getText();
+
+        // Le chemin vers la vidéo que vous souhaitez publier.
+        String videoFilePath = mediaView.getMediaPlayer().getMedia().getSource();
+
+        try {
+            // Créez un client Facebook avec le jeton d'accès.
+            FacebookClient facebookClient = new DefaultFacebookClient(accessToken, Version.LATEST);
+
+            // Étape 1 : Téléchargez la vidéo sur Facebook et obtenez l'ID de la vidéo.
+            String videoId = telechargerVideoSurFacebook(facebookClient, videoFilePath);
+
+            if (videoId != null) {
+                // Étape 2 : Créez la publication avec la vidéo téléchargée sur la page spécifiée.
+                boolean publicationReussie = publierVideoSurPageFacebook(facebookClient, pageId, videoId, message);
+
+                if (publicationReussie) {
+                    System.out.println("La vidéo a été publiée avec succès sur la page Facebook !");
+                } else {
+                    System.err.println("Échec de la publication de la vidéo sur la page Facebook.");
+                }
+            } else {
+                System.err.println("Échec du téléchargement de la vidéo sur Facebook.");
+            }
+        } catch (Exception e) {
+            System.err.println("Une erreur s'est produite : " + e.getMessage());
+        }
+    }
+
+    private String telechargerVideoSurFacebook(FacebookClient client, String videoFilePath) {
+        // Téléchargez la vidéo sur Facebook et retournez l'ID de la vidéo.
+        FacebookType response = client.publish("me/videos", FacebookType.class,
+                Parameter.with("source", new File(videoFilePath)));
+
+        return response.getId();
+    }
+
+    private boolean publierVideoSurPageFacebook(FacebookClient client, String pageId, String videoId, String message) {
+        // Créez la publication avec la vidéo téléchargée sur la page spécifiée.
+        FacebookType response = client.publish(pageId + "/feed", FacebookType.class,
+                Parameter.with("message", message),
+                Parameter.with("attached_media", "[{'media_fbid':'" + videoId + "'}]"));
+
+        return response.getId() != null;
+    }
+
     }
 
    
-}
+
             
-             /*String query = "SELECT idtemp FROM temp WHERE id = ?";
-                long id=1;long idTemp = -1;
-
-    PreparedStatement prepStat = myConx.prepareStatement(query);
-    prepStat.setLong(1, id); // Replace with the actual condition value
-
-    ResultSet resultSet = prepStat.executeQuery();
-
-    if (resultSet.next()) {
-        idTemp = resultSet.getLong("idtemp");}
-            formation f= new formation(idTemp,titre, categorie, prix, remise, duree, description,mediaSource) ;
-             // Initialize the variable with a default value
-
-
-    // Create a SQL query to retrieve the idtemp based on a condition (replace with your condition)
-   
-      fs.modifier(fs.getFormationById(idTemp), f);*/
-  
+             
 
     
     
