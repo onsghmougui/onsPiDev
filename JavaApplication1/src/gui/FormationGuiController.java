@@ -159,7 +159,7 @@ public class FormationGuiController implements Initializable {
 		sortedData.comparatorProperty().bind(tableFormation.comparatorProperty());
 		
 		// 5. Add sorted (and filtered) data to the table.
-		//tableFormation.setItems(sortedData);
+		tableFormation.setItems(sortedData);
             
     
        
@@ -328,20 +328,7 @@ stage.show();*/
             System.out.println("Error: "+ex.getMessage());
         }
     }
-
-    @FXML
-    private void id(TableColumn.CellEditEvent<formation, Long> event) {
-        /*Long newValue = event.getNewValue();
-        formation editedFormation = event.getRowValue();
-    
-    if (editedFormation != null) {
-        editedFormation.setId(newValue);
-        // You can also save changes to the database if needed
-    }
-    fs.modifier(editedFormation);*/
-    }
-
-    @FXML
+      @FXML
     private void titre(TableColumn.CellEditEvent<formation, String> event) {
            String newValue = event.getNewValue();
         formation editedFormation = event.getRowValue();
@@ -352,8 +339,7 @@ stage.show();*/
     }
     fs.modifier(editedFormation);
     }
-
-    @FXML
+      @FXML
     private void categorie(TableColumn.CellEditEvent<formation, String> event) {
            String newValue = event.getNewValue();
         formation editedFormation = event.getRowValue();
@@ -364,8 +350,7 @@ stage.show();*/
     }
     fs.modifier(editedFormation);
     }
-
-    @FXML
+      @FXML
     private void prix(TableColumn.CellEditEvent<formation, Double> event) {
            Double newValue = event.getNewValue();
         formation editedFormation = event.getRowValue();
@@ -376,8 +361,7 @@ stage.show();*/
     }
     fs.modifier(editedFormation);
     }
-
-    @FXML
+      @FXML
     private void remise(TableColumn.CellEditEvent<formation, Float> event) {
            Float newValue = event.getNewValue();
         formation editedFormation = event.getRowValue();
@@ -388,8 +372,7 @@ stage.show();*/
     }
     fs.modifier(editedFormation);
     }
-
-    @FXML
+      @FXML
     private void duree(TableColumn.CellEditEvent<formation, String> event) {
            String newValue = event.getNewValue();
         formation editedFormation = event.getRowValue();
@@ -400,8 +383,7 @@ stage.show();*/
     }
     fs.modifier(editedFormation);
     }
-
-    @FXML
+      @FXML
     private void description(TableColumn.CellEditEvent<formation, String> event) {
         String newValue = event.getNewValue();
         formation editedFormation = event.getRowValue();
@@ -410,10 +392,10 @@ stage.show();*/
         editedFormation.setDescription(newValue);
         // You can also save changes to the database if needed
     }
+        
     fs.modifier(editedFormation);
     }
-
-    @FXML
+      @FXML
     private void video(TableColumn.CellEditEvent<formation, String> event) {
            String newValue = event.getNewValue();
         formation editedFormation = event.getRowValue();
@@ -425,6 +407,18 @@ stage.show();*/
     fs.modifier(editedFormation);
     }
 
+    @FXML
+    private void id(TableColumn.CellEditEvent<formation, Long> event) {
+    }
+
+ 
+
+ 
+    }
+
+   
+
+    
     
 
     
@@ -434,6 +428,6 @@ stage.show();*/
      
     
 
-}
+
 
 

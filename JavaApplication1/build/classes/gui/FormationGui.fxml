@@ -13,10 +13,10 @@
 <AnchorPane id="AnchorPane" onMouseClicked="#Ajout" prefHeight="695.0" prefWidth="970.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.FormationGuiController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c87a19" height="114.0" layoutX="-1.0" layoutY="-4.0" stroke="BLACK" strokeType="INSIDE" width="970.0" />
-      <TableView fx:id="tableFormation" layoutX="122.0" layoutY="301.0" prefHeight="246.0" prefWidth="789.0" style="-fx-background-color: #fae7cf;">
+      <TableView fx:id="tableFormation" editable="true" layoutX="122.0" layoutY="301.0" prefHeight="246.0" prefWidth="789.0" style="-fx-background-color: #fae7cf;">
         <columns>
-          <TableColumn fx:id="idcolumn" onEditStart="#id" prefWidth="93.5999755859375" text="Id" />
-            <TableColumn fx:id="titrecolumn" onEditStart="#titre" prefWidth="80.7999267578125" text="Titre" />
+          <TableColumn fx:id="idcolumn" onEditStart="#id" prefWidth="60.800048828125" text="Id" />
+            <TableColumn fx:id="titrecolumn" onEditStart="#titre" prefWidth="113.5999755859375" text="Titre" />
             <TableColumn fx:id="categoriecolumn" onEditStart="#categorie" prefWidth="77.60003662109375" text="Catégorie" />
             <TableColumn fx:id="prixcolumn" onEditStart="#prix" prefWidth="102.4000244140625" text="Prix" />
             <TableColumn fx:id="remisecolumn" onEditStart="#remise" prefWidth="88.0" text="Remise" />

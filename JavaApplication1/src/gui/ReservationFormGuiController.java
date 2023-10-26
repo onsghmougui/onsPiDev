@@ -109,10 +109,14 @@ public class ReservationFormGuiController implements Initializable {
     @FXML
     private void confirmation(ActionEvent event) throws StripeException {
     // Create the PaymentMethod
+    
     String cardNumber = numCard.getText();
     String expirationMonth = months.getValue();
     String expirationYear = years.getValue().toString();
     String CVC=cvc.getText();
+    String Email = email.getText();
+    
+     if (isValidEmail(Email)) {   
 
     Map<String, Object> card = new HashMap<>();
     card.put("number", cardNumber);
@@ -162,6 +166,10 @@ public class ReservationFormGuiController implements Initializable {
         }
     } catch (StripeException e) {
             e.printStackTrace();
+    }
+    } else {
+        // The email is not valid; display an error message or take appropriate action.
+        showAlert("Invalid Email", "Please enter a valid email address.");
     }
     }
     
@@ -219,4 +227,16 @@ public class ReservationFormGuiController implements Initializable {
         e.printStackTrace();
     }
 }
+    public static boolean isValidEmail(String email) {
+    String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
+    return email.matches(emailRegex);
+}
+    private void showAlert(String title, String content) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(content);
+    alert.showAndWait();
+}
+
 }

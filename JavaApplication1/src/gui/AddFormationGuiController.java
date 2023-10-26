@@ -174,7 +174,7 @@ public class AddFormationGuiController implements Initializable {
 
         // Associez le MediaPlayer à la MediaView pour l'affichage de la vidéo
         mediaView.setMediaPlayer(mediaPlayer);
-       
+       mediaPlayer.play();
         // Remplissez d'autres champs en conséquence
     }
     
