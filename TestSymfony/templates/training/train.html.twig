@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="container mt-5">
+        <div class="row">
+            {% for training in training %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        {% set videoPath = asset('videos/' ~ training.video) %}
+                        <video controls poster="{{ videoPath }}.jpg" class="card-img-top" style="max-height: 300px; width: 100%; object-fit: cover;">
+                            <source src="{{ videoPath }}" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                        <div class="card-body text-center d-flex flex-column align-items-center">
+                            <h5 class="card-title">{{ training.titre }}</h5>
+                            <p class="card-text">Prix : {{ training.prix }} dt</p>
+
+                            <!-- Regrouper le bouton S'inscrire et l'icône de cœur dans une ligne -->
+                            <div class="d-flex align-items-center">
+                                <a href="{{ path('add_commentaire', {'idFormation': training.id}) }}" class="btn btn-primary" style="margin-right: 10px;">S'inscrire</a>
+
+                                <!-- Icône de cœur pour les likes avec taille et couleur personnalisées -->
+                                <i class="fas fa-heart" style="font-size: 28px; color: red;"></i>
+                            </div>
+
+                            <!-- Icône de commentaire -->
+                        
+                        </div>
+                    </div>
+                </div>
+
+                {% if loop.index % 3 == 0 %}
+                    </div><div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

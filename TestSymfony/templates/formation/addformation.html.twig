@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Training{% endblock %}
+
+{% block body %}
+  {{ parent() }}
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-7">
+        <div class="card shadow-lg border-0 rounded-lg mt-5">
+          <div class="card-header">
+            <h3 class="text-center font-weight-light my-4">Add Product</h3>
+          </div>
+          <div class="card-body">
+            <div class="form-container text-center">
+              {{ form_start(f) }}
+              
+              <div class="form-group mb-3">
+                {{ form_label(f.titre) }}
+                {{ form_widget(f.titre, {'attr': {'class': 'form-control'}}) }}
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form_label(f.categories) }}
+                {{ form_widget(f.categories, {'attr': {'class': 'form-control'}}) }}
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form_label(f.prix) }}
+                {{ form_widget(f.prix, {'attr': {'class': 'form-control'}}) }}
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form_label(f.remise) }}
+                {{ form_widget(f.remise, {'attr': {'class': 'form-control'}}) }}
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form_label(f.duree) }}
+                {{ form_widget(f.duree, {'attr': {'class': 'form-control'}}) }}
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form_label(f.description) }}
+                {{ form_widget(f.description, {'attr': {'class': 'form-control'}}) }}
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form_label(f.video) }}
+                {{ form_widget(f.video, {'attr': {'class': 'form-control'}}) }}
+              </div>
+
+              <div class="form-group mb-3">
+                {{ form_widget(f.Save, {'attr': {'class': 'btn btn-primary btn-block'}}) }}
+              </div>
+    
+              {{ form_errors(f) }}
+
+              {{ form_end(f) }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

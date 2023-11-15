@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ parent() }}
+    <h1 class="text-center">All Trainings</h1>
+    
+    <table class="table">
+        <thead>
+            <tr>
+                <th class="text-center">Title</th>
+                <th class="text-center">Category</th>
+                <th class="text-center">Price</th>
+                <th class="text-center">Discount</th>
+                <th class="text-center">Duration</th>
+                <th class="text-center">Description</th>
+                <th class="text-center">Video</th>
+                <th class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for formation in formations %}
+                <tr>
+                    <td class="text-center">{{ formation.titre }}</td>
+                    <td class="text-center">{{ formation.categories }}</td>
+                    <td class="text-center">{{ formation.prix }}</td>
+                    <td class="text-center">{{ formation.remise }}</td>
+                    <td class="text-center">{{ formation.duree }}</td>
+                    <td class="text-center">{{ formation.description }}</td>
+                    <td class="text-center">
+                        {% if formation.video is not null %}
+                            <video controls width="150" height="100">
+                                <source src="{{ asset('videos/' ~ formation.video) }}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        {% else %}
+                            No Video
+                        {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ path('update_formation', { 'id': formation.id }) }}">Edit</a>
+                        <a href="{{ path('delete_formation', { 'id': formation.id }) }}">Delete</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <a href="{{ path('add_formation') }}" class="btn btn-primary">Add Formation</a>
+{% endblock %}

@@ -1,0 +1,24 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+add_formation:
+    path: /addformation
+    controller: App\Controller\FormationController::addformation
+update_formation:
+    path: /updateformation/{id}
+    controller: App\Controller\FormationController::updateformation
+all_formation:
+    path: /allformation
+    controller: App\Controller\FormationController::getAll
+delete_formation:
+    path: /deleteformation/{id}
+    controller: App\Controller\FormationController::delete
+training_index:
+    path: /training
+    controller: App\Controller\TrainingController::index
+
+add_commentaire:
+    path: '/addComm/{idFormation}'
+    controller: 'App\Controller\CommentaireController::addCommentaire'
+    requirements:
+        idFormation: '\d+'

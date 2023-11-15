@@ -1,0 +1,17 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/rateYo/2.3.2/jquery.rateyo.min.js"></script>
+{{ form_start(form) }}
+{{ form_row(form.text) }}
+<div class="rateYo-container">
+    {{ form_row(form.evaluation) }}
+</div>
+{{ form_end(form) }}
+
+<script>
+    $(function () {
+        $(".rateYo").rateYo({
+            rating: 0, // Valeur initiale
+            starWidth: "25px", // Largeur de l'étoile
+            // Autres options de configuration ici
+        });
+    });
+</script>

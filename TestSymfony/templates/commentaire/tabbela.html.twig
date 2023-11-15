@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ parent() }}
+    <h1>{{ formation.titre }}</h1>
+    <p>{{ formation.description }}</p>
+    <iframe width="560" height="315" src="{{ asset('videos/' ~ formation.video) }}" type="video/mp4" frameborder="0" allowfullscreen></iframe>
+
+    {# Afficher les commentaires dans un tableau #}
+    {% if commentaires is not empty %}
+        <h2>Commentaires</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Texte</th>
+                    <th>Date</th>
+                    <th>Évaluation</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for comment in commentaires %}
+                    <tr>
+                        <td>{{ comment.text }}</td>
+                        <td>{{ comment.date|date('Y-m-d H:i:s') }}</td>
+                        <td>{{ comment.evaluation }}</td>
+                        <td>
+                            <!-- Bouton Delete sous forme d'icône -->
+                            <a href="{{ path('delete_commentaire', {'id': comment.id}) }}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this comment?');">
+                                <i class="fas fa-trash"></i>
+                            </a>
+
+                            <!-- Bouton Edit sous forme d'icône -->
+                            <a href="{{ path('edit_commentaire', {'id': comment.id}) }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Aucun commentaire pour le moment.</p>
+    {% endif %}
+
+    <h2>Ajouter un commentaire</h2>
+    {{ form_start(f) }}
+    <div class="form-group row">
+    <div class="col-md-6">
+        {{ form_label(f.text) }}
+        {{ form_widget(f.text, {'attr': {'class': 'form-control', 'rows': 8, 'placeholder': 'Saisissez votre commentaire ici...'}}) }}
+    </div>
+
+    <div class="col-md-1">
+        {{ form_label(f.evaluation) }}
+        {{ form_widget(f.evaluation, {'attr': {'class': 'form-control'}}) }}
+    </div>
+    </div>
+        <button type="submit" class="btn btn-primary">Ajouter un commentaire</button>
+    {{ form_end(f) }}
+
+    
+{% endblock %}
